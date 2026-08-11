@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    overflow-x: hidden;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+nav img{
+    width: 20px;
+}
+nav h1{
+    font-size: 25px;
+    margin-left: 20px;
+}
+.right-section{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.left-section{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.hamburger{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.menu{
+    display: none;
+    list-style: none;
+}
+.search-box .box{
+    display: none;
+}
