@@ -1,43 +1,185 @@
+@font-face {
+    font-family: "dana";
+    src: url("assets/fonts/dana-cufonfonts-webfont/dana\ medium.woff");
+}
+@font-face {
+    font-family: "peyda";
+    src: url("assets/fonts/Peyda/Peyda.woff");
+unicode-range: U+600-06FF, U+U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+    font-family: "poppins";
+    src: url("assets/fonts/Poppins/Poppins-Medium.ttf");
+    unicode-range: U+0000-00FF;
+}
+
+:root{
+    --Palladuan: #eee9df;
+    --Oatmeal: #c9c181;
+    --Blue_Fantastic: #2c3b4d;
+    --Abyssal: #1b2632;
+    --Truffle_Trouble: #a35139;
+    --Burning_Flame: #ffb162;
+}
+
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     overflow-x: hidden;
+    font-family: "poppins", "peyda";
 }
+
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    background-color: var(--Truffle_Trouble);
+    color: rgb(255, 225, 187);
+    position: relative;
 }
-nav img{
+
+nav::after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    background: linear-gradient(
+        to top,
+        rgba(96, 67, 47, 0.7) 0%,
+        rgba(0, 0, 0, 0) 100%
+    );
+}
+
+nav svg{
     width: 20px;
+    color: rgb(255, 225, 187);
+    cursor: pointer;
 }
-nav h1{
+
+nav h1 {
     font-size: 25px;
     margin-left: 20px;
+    z-index: 1;
 }
-.right-section{
+
+.right-section {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.left-section{
+
+.left-section {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.hamburger{
+
+.hamburger {
     background: none;
     border: none;
     cursor: pointer;
 }
-.menu{
+
+.menu {
     display: none;
     list-style: none;
 }
-.search-box .box{
+
+.search-box .box {
     display: none;
+}
+
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 340px;
+    position: relative;
+    overflow: hidden;
+    font-size: 15px;
+}
+
+.bg-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: left;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.bg-layer.active {
+    opacity: 1;
+}
+
+.hero-content{
+    position: relative;
+    z-index: 2;
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: auto 20px auto auto;
+}
+
+.hero-content .title{
+    color: var(--Abyssal);
+    text-shadow: 0 0 7px var(--Palladuan);
+    font-size: 17px;
+}
+
+.hero-content .explain{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgba(255, 158, 54, 0.041);
+    backdrop-filter: blur(4px) saturate(150%);
+    -webkit-backdrop-filter: blur(4px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    padding: 15px 10px;
+    border-radius: 10px;
+    color: #2c3b4d;
+    text-align: center;
+}
+
+.hero-content .explain .for-desktop{
+    display: none;
+}
+
+.hero-content .links{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.hero-content .links a{
+    color: var(--Abyssal);
+        text-shadow: 0 0 7px var(--Palladuan);
+}
+
+@media screen and (min-width: 768px){
+    .hero-content{
+        width: 400px;
+        gap: 50px;
+    }
+    .hero{
+        font-size: 16px;
+    }
+    .hero-content .title{
+        font-size: 20px;
+    }
+    .hero-content .explain .for-desktop{
+        display: inline;
+    }
 }
