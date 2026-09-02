@@ -61,11 +61,13 @@ const scrollbar = document.querySelector('.brands .scrollbar');
 const thumb = document.querySelector('.brands .scrollbar-thumb');
 
 function updateScrollbar() {
+
     const contentWidth = images.scrollWidth;
     const visibleWidth = images.clientWidth;
 
     const scrollableWidth = contentWidth - visibleWidth;
 
+    // اگر اسکرول وجود ندارد
     if (scrollableWidth <= 0) {
         scrollbar.style.display = 'none';
         return;
@@ -73,29 +75,50 @@ function updateScrollbar() {
 
     scrollbar.style.display = 'block';
 
-    // عرض thumb
+    // محاسبه عرض واقعی نوار مشکی
     const thumbWidth =
-        (visibleWidth / contentWidth) * scrollbar.clientWidth;
+        (visibleWidth / contentWidth) * 100;
 
-    thumb.style.width = `${thumbWidth}px`;
+    thumb.style.width = `${thumbWidth}%`;
 
-    // فضای قابل حرکت thumb
-    const maxMove =
-        scrollbar.clientWidth - thumbWidth;
+    // مقدار حرکت
+    const maxMove = 100 - thumbWidth;
 
-    // مقدار اسکرول
-    const scrollLeft = Math.abs(images.scrollLeft);
-
-    // درصد اسکرول
     const progress =
-        Math.min(scrollLeft / scrollableWidth, 1);
+        Math.abs(images.scrollLeft) / scrollableWidth;
 
-    // چون نوار RTL است، از راست حرکت می‌کند
-    thumb.style.right = `${progress * maxMove}px`;
+    const safeProgress =
+        Math.min(Math.max(progress, 0), 1);
+
+    thumb.style.right =
+        `${safeProgress * maxMove}%`;
 }
 
+
+// هنگام اسکرول
 images.addEventListener('scroll', updateScrollbar);
+
+
+// هنگام تغییر اندازه صفحه
 window.addEventListener('resize', updateScrollbar);
+
+
+// بعد از لود کامل صفحه
+window.addEventListener('load', updateScrollbar);
+
+
+// وقتی تصاویر برندها لود شدند
+const brandImages = images.querySelectorAll('img');
+
+brandImages.forEach(img => {
+
+    if (img.complete) {
+        updateScrollbar();
+    } else {
+        img.addEventListener('load', updateScrollbar);
+    }
+
+});
 
 updateScrollbar();
 
@@ -204,7 +227,7 @@ collections.forEach(collection => {
 
         for (let i = 0; i < clones.length; i++) {
             const rect = clones[i].getBoundingClientRect();
-            const distance = Math.abs(rightEdge - rect.right);if (distance < 20) {
+            const distance = Math.abs(rightEdge - rect.right); if (distance < 20) {
                 const cycleWidth = clones[i].offsetLeft - originalProducts[i].offsetLeft;
 
                 allSlides.forEach(item => {
@@ -230,13 +253,9 @@ collections.forEach(collection => {
     container.addEventListener("scroll", scrollProducts);
     scrollProducts();
 
-    // نگه داشتن رفرنس تابع برای صدا زدن مجدد بعد از لود کامل تصاویر
     scrollHandlers.push(scrollProducts);
 });
 
-// بعد از لود کامل همه‌ی تصاویر صفحه، موقعیت‌ها رو دوباره محاسبه می‌کنیم
-// چون موقع لود اولیه ممکنه عرض واقعی عکس‌ها هنوز اعمال نشده باشه
-// و همین باعث می‌شد گاهی دو اسلاید هم‌زمان فعال (بزرگ) به نظر برسن
 window.addEventListener('load', () => {
     scrollHandlers.forEach(fn => fn());
 });
