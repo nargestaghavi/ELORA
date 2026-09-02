@@ -39,6 +39,51 @@ function changeBackground() {
 
 setInterval(changeBackground, 7000);
 
+//نوار اسکرول برند ها
+
+const images = document.querySelector('.brands .images');
+const scrollbar = document.querySelector('.brands .scrollbar');
+const thumb = document.querySelector('.brands .scrollbar-thumb');
+
+function updateScrollbar() {
+    const contentWidth = images.scrollWidth;
+    const visibleWidth = images.clientWidth;
+
+    const scrollableWidth = contentWidth - visibleWidth;
+
+    if (scrollableWidth <= 0) {
+        scrollbar.style.display = 'none';
+        return;
+    }
+
+    scrollbar.style.display = 'block';
+
+    // عرض thumb
+    const thumbWidth =
+        (visibleWidth / contentWidth) * scrollbar.clientWidth;
+
+    thumb.style.width = `${thumbWidth}px`;
+
+    // فضای قابل حرکت thumb
+    const maxMove =
+        scrollbar.clientWidth - thumbWidth;
+
+    // مقدار اسکرول
+    const scrollLeft = Math.abs(images.scrollLeft);
+
+    // درصد اسکرول
+    const progress =
+        Math.min(scrollLeft / scrollableWidth, 1);
+
+    // چون نوار RTL است، از راست حرکت می‌کند
+    thumb.style.right = `${progress * maxMove}px`;
+}
+
+images.addEventListener('scroll', updateScrollbar);
+window.addEventListener('resize', updateScrollbar);
+
+updateScrollbar();
+
 //اسلایدر محصولات
 
 const collections = document.querySelectorAll(".collection");
