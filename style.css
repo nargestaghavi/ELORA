@@ -142,7 +142,7 @@ nav h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 240px;
+    height: 300px;
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -170,8 +170,8 @@ nav h1 {
     width: 45vw;
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    margin: 70px 20px auto auto;
+    gap: 40px;
+    margin: 90px 20px auto auto;
 }
 
 .hero-content .title {
@@ -198,7 +198,7 @@ nav h1 {
 .brands {
     display: flex;
     gap: 30px;
-    padding: 50px 30px;
+    padding: 40px 30px;
     align-items: center;
 }
 
