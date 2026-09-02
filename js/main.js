@@ -1,3 +1,18 @@
+//لودر
+window.addEventListener("load", () => {
+
+    const loader = document.getElementById("eloraLoader");
+
+    if (!loader) return;
+
+    loader.classList.add("hide");
+
+    setTimeout(() => {
+        loader.remove();
+    }, 700);
+
+});
+
 //تغییر عکس بنر
 
 const banners = [
@@ -225,3 +240,4 @@ collections.forEach(collection => {
 window.addEventListener('load', () => {
     scrollHandlers.forEach(fn => fn());
 });
+
