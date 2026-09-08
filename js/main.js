@@ -13,6 +13,21 @@ window.addEventListener("load", () => {
 
 });
 
+let close_icon = true;
+
+//منوی همبرگری
+
+const hamburger = document.querySelector(".hamburger");
+const menu = document.querySelector(".menu");
+
+hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    menu.classList.toggle("active");
+    search.classList.remove("active");
+    box.classList.remove("active");
+});
+
+
 //تغییر عکس بنر
 
 const banners = [

@@ -196,7 +196,7 @@ nav {
     justify-content: space-between;
     align-items: center;
 
-    padding: 5px 10px;
+    padding: 0 10px;
 
     background-color: var(--Truffle_Trouble);
     color: rgb(255, 225, 187);
@@ -223,7 +223,7 @@ nav::after {
 
     background: linear-gradient(
         to top,
-        rgba(96, 67, 47, 0.561) 0%,
+        rgba(105, 70, 47, 0.561) 0%,
         rgba(0, 0, 0, 0) 100%
     );
 
@@ -231,7 +231,7 @@ nav::after {
 }
 
 nav svg {
-    width: 18px;
+    width: 20px;
     color: rgb(255, 225, 187);
     cursor: pointer;
     z-index: 1;
@@ -262,31 +262,54 @@ nav h1 {
     cursor: pointer;
 }
 
+#close-ham{
+    display: none;
+    margin-top: -4px;
+    width: 20px;
+}
+
+.hamburger.active #hamburger{
+    display: none;
+}
+
+.hamburger.active #close-ham{
+    display: block;
+}
+
 .menu {
-    display: none;
+    visibility: hidden;
     list-style: none;
+    position: absolute;
+    top: 35px;
+    left: 0;
+    margin: 5px;
+    padding: 5px;
+    font-size: 13px;
+    background-color: #c6b7a5ce;
+    border-radius: 3px;
+    transition: 0.3s;
+    transform: translateX(-5px);
 }
 
-.search-box .icon {
+.menu.active{
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.menu a{
+    display: block;
+    text-decoration: none;
+    color: var(--Blue_Fantastic);
+    padding: 10px;
+    border-bottom: 1.5px solid var(--Blue_Fantastic);
+}
+
+.menu li:last-child a{
+    border: none;
+}
+
+.search{
     margin-top: 3px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.search {
-    display: none;
-    outline: none;
-    border: none;
-    border-bottom: 2px solid rgb(255, 225, 187);
-    background: none;
-    padding: 0;
-    width: 10vw;
-}
-
-.search::placeholder {
-    color: rgb(255, 225, 187);
-    text-align: left;
 }
 
 .hero {
