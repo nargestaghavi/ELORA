@@ -348,14 +348,14 @@ nav h1 {
 }
 
 .hero-content .text{
-    font-size: 8px;
+    font-size: 10px;
     color: rgb(69, 69, 69);
     margin-right: 20px;
 }
 
 .hero-content .title {
     color: rgb(37, 41, 59);
-    font-size: 15px;
+    font-size: 17px;
     display: block;
     text-align: center;
     font-family: "dana";
@@ -373,7 +373,7 @@ nav h1 {
 .hero-content .links a {
     color: var(--Blue_Fantastic);
     text-shadow: 0 0 7px var(--Palladuan);
-    font-size: 10px;
+    font-size: 12px;
     padding: 5px;
     text-decoration: none;
 }
