@@ -213,7 +213,8 @@ collections.forEach(collection => {
             if (index === activeSlideIndex) {
                 img.style.opacity = "1";
                 img.style.transform = "scale(1)";
-                img.style.boxShadow = "6px 6px 16px rgba(0, 0, 0, 0.12),-6px -6px 16px rgba(186, 186, 186, 0.743),inset -6px -6px 16px rgba(0, 0, 0, 0.12),inset 6px 6px 16px rgba(231, 231, 231, 0.743)";
+                img.style.boxShadow = "3px 3px 10px rgba(0, 0, 0, 0.08),-3px -3px 10px rgba(186, 186, 186, 0.743),inset -3px -3px 10px rgba(0, 0, 0, 0.12),inset 3px 3px 10px rgba(231, 231, 231, 0.743)";
+                img.style.cursor = "pointer";
             } else {
                 img.style.opacity = "0.65";
                 img.style.transform = "scale(0.8)";
