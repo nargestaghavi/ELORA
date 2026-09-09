@@ -38,6 +38,9 @@ body {
     overflow-x: hidden;
     padding-top: 40px;
     font-family: "poppins", "peyda";
+}
+
+.english{
     letter-spacing: 3px;
 }
 
@@ -312,7 +315,7 @@ nav h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 300px;
+    height: 350px;
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -340,19 +343,19 @@ nav h1 {
     width: 45vw;
     display: flex;
     flex-direction: column;
-    margin: 50px 20px auto auto;
+    margin: 80px 20px auto auto;
     gap: 20px;
 }
 
 .hero-content .text{
-    font-size: 10px;
+    font-size: 8px;
     color: rgb(69, 69, 69);
     margin-right: 20px;
 }
 
 .hero-content .title {
     color: rgb(37, 41, 59);
-    font-size: 18px;
+    font-size: 15px;
     display: block;
     text-align: center;
     font-family: "dana";
@@ -370,7 +373,7 @@ nav h1 {
 .hero-content .links a {
     color: var(--Blue_Fantastic);
     text-shadow: 0 0 7px var(--Palladuan);
-    font-size: 14px;
+    font-size: 10px;
     padding: 5px;
     text-decoration: none;
 }
@@ -480,6 +483,7 @@ nav h1 {
     margin: 5px 0;
     font-size: 18px;
     scroll-margin-top: 60px;
+    letter-spacing: 2px;
 }
 
 .collection .images {
