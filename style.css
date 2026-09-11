@@ -40,7 +40,7 @@ body {
     font-family: "poppins", "peyda";
 }
 
-.english{
+.english {
     letter-spacing: 3px;
 }
 
@@ -347,7 +347,7 @@ nav h1 {
     gap: 15px;
 }
 
-.hero-content .text{
+.hero-content .text {
     font-size: 10px;
     color: rgb(69, 69, 69);
     margin-right: 20px;
@@ -379,7 +379,7 @@ nav h1 {
     text-decoration: none;
 }
 
-.hero-content hr{
+.hero-content hr {
     height: 5px;
     border: none;
     border-top: 1.5px solid #2c3b4dc3;
@@ -431,10 +431,148 @@ nav h1 {
     flex-shrink: 0;
 }
 
+.popular-section{
+    display: flex;
+    width: 100%;
+    padding: 40px 30px;
+    align-items: center;
+    background-color: #ededed;
+    padding-right: 20px;
+}
+
+.popular-section .text{
+    flex-shrink: 0;
+    width: 110px;
+    height: 302px;
+    font-size: 15px;
+    background-color: var(--Burning_Flame);
+    padding: 80px 10px;
+    margin: 0 -10px auto 10px;
+    color: var(--Abyssal);
+    position: relative;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.popular-section .text::before{
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 0;
+    background-color: var(--Truffle_Trouble);
+    clip-path: polygon(0 0,
+            100% 0,
+            100% 100%,
+            50% 50%,
+            0 100%);
+}
+
+.popular{
+    flex: 1;
+    min-width: 0;
+}
+
+.products {
+    display: flex;
+    gap: 20px;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    font-size: 12px;
+    margin-bottom: 20px;
+
+    /* Hide scrollbar - Firefox */
+    scrollbar-width: none;
+
+    /* Hide scrollbar - IE / Edge */
+    -ms-overflow-style: none;
+}
+
+/* Hide scrollbar - Chrome / Edge / Safari */
+.products::-webkit-scrollbar {
+    display: none;
+}
+
+.product{
+    border-radius: 10px;
+}
+
+.products .image{
+    position: relative;
+}
+
+.products img {
+    height: 160px;
+    padding: 10px;
+}
+
+.products .image svg{
+    position: absolute;
+    background-color: var(--Truffle_Trouble);
+    border-radius: 50%;
+    color: var(--Palladuan);
+}
+
+.products .heart{
+    top: 3px;
+    left: 3px;
+    padding: 4px;
+}
+
+.products .plus{
+    right: 3px;
+    bottom: 8px;
+}
+
+.product{
+    background-color: var(--Burning_Flame);
+    width: fit-content;
+}
+
+.product .texts{
+    margin: 0 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.product .title{
+    font-size: 13px;
+}
+
+.popular-section .txt{
+    color: rgb(75, 75, 75);
+    max-width: 128px;
+}
+
+.product .off{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.product .off p{
+    background-color: var(--Truffle_Trouble);
+    padding: 1px 3px;
+    border-radius: 9px;
+    color: rgba(253, 253, 253, 0.61);
+}
+
+.product .old-price{
+    color: rgb(115, 115, 115);
+    text-decoration: line-through;
+}
+
+.product .price{
+    margin-right: 5px;
+}
 
 /* Custom Scrollbar */
 
-.brands .scrollbar {
+.scrollbar {
     position: relative;
     width: 100%;
     height: 5px;
@@ -443,7 +581,7 @@ nav h1 {
     border-radius: 10px;
 }
 
-.brands .scrollbar-thumb {
+.scrollbar-thumb {
     position: absolute;
     top: 0;
     right: 0;
@@ -459,20 +597,20 @@ nav h1 {
     scroll-margin-top: 30px;
 }
 
-.collections .texts{
+.collections .texts {
     margin-bottom: 50px;
     margin-right: -30px;
     padding-right: 20px;
     border-right: 1.7px solid black;
 }
 
-.collections .text{
+.collections .text {
     font-size: 12px;
     color: rgb(115, 115, 115);
     margin: 20px 0;
 }
 
-.collections h4{
+.collections h4 {
     font-size: 18px;
 }
 
@@ -668,7 +806,7 @@ footer li a {
     align-items: center;
 }
 
-footer li p{
+footer li p {
     color: var(--Blue_Fantastic);
 }
 
@@ -696,11 +834,11 @@ footer .sign {
         margin-top: auto;
     }
 
-    .hero-content .title{
+    .hero-content .title {
         margin-bottom: 20px;
     }
 
-    .hero-content .text{
+    .hero-content .text {
         font-size: 12px;
         margin-right: 30px;
     }
@@ -726,16 +864,29 @@ footer .sign {
         height: 100px;
     }
 
+    .popular-section{
+        padding: 70px;
+    }
+
+    .popular-section .text{
+        margin-left: 20px;
+    }
+
+    .products img {
+        height: 180px;
+    }
+
+
     .collections {
         padding: 70px;
         scroll-margin-top: -30px;
     }
 
-    .collection{
+    .collection {
         margin: 30px 0;
     }
 
-    .collection .box-img{
+    .collection .box-img {
         margin: 15px 0;
     }
 
@@ -744,15 +895,15 @@ footer .sign {
         margin-top: 0;
     }
 
-    .collection a{
+    .collection a {
         font-size: 17px;
     }
 
-    .dots-wrapper{
+    .dots-wrapper {
         margin-top: 15px;
     }
 
-    .collection hr{
+    .collection hr {
         margin: 20px auto;
     }
 

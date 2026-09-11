@@ -69,13 +69,17 @@ function changeBackground() {
 
 setInterval(changeBackground, 7000);
 
-//نوار اسکرول برند ها
+// نوار اسکرول ساختگی
 
-const images = document.querySelector('.brands .images');
-const scrollbar = document.querySelector('.brands .scrollbar');
-const thumb = document.querySelector('.brands .scrollbar-thumb');
+const brand_images = document.querySelector('.brands .images'); 
+const scrollbar_brand = document.querySelector('.brands .scrollbar'); 
+const thumb_brand = document.querySelector('.brands .scrollbar-thumb');
 
-function updateScrollbar() {
+const popular_items = document.querySelector('.popular-section .products'); 
+const scrollbar_popular = document.querySelector('.popular-section .scrollbar'); 
+const thumb_popular = document.querySelector('.popular-section .scrollbar-thumb');
+
+function updateScrollbar(images, scrollbar, thumb) {
 
     const contentWidth = images.scrollWidth;
     const visibleWidth = images.clientWidth;
@@ -90,13 +94,13 @@ function updateScrollbar() {
 
     scrollbar.style.display = 'block';
 
-    // محاسبه عرض واقعی نوار مشکی
+    // محاسبه عرض Thumb
     const thumbWidth =
         (visibleWidth / contentWidth) * 100;
 
     thumb.style.width = `${thumbWidth}%`;
 
-    // مقدار حرکت
+    // مقدار حرکت Thumb
     const maxMove = 100 - thumbWidth;
 
     const progress =
@@ -109,33 +113,50 @@ function updateScrollbar() {
         `${safeProgress * maxMove}%`;
 }
 
+// اسکرول برندها 
 
-// هنگام اسکرول
-images.addEventListener('scroll', updateScrollbar);
+brand_images.addEventListener('scroll', () => { updateScrollbar(brand_images, scrollbar_brand, thumb_brand); });
 
+// اسکرول محصولات پرفروش 
 
-// هنگام تغییر اندازه صفحه
-window.addEventListener('resize', updateScrollbar);
+popular_items.addEventListener('scroll', () => { updateScrollbar(popular_items, scrollbar_popular, thumb_popular); });
 
+// تغییر اندازه صفحه 
 
-// بعد از لود کامل صفحه
-window.addEventListener('load', updateScrollbar);
+window.addEventListener('resize', () => {
+    updateScrollbar(
+        brand_images,
+        scrollbar_brand,
+        thumb_brand
+    );
 
-
-// وقتی تصاویر برندها لود شدند
-const brandImages = images.querySelectorAll('img');
-
-brandImages.forEach(img => {
-
-    if (img.complete) {
-        updateScrollbar();
-    } else {
-        img.addEventListener('load', updateScrollbar);
-    }
-
+    updateScrollbar(
+        popular_items,
+        scrollbar_popular,
+        thumb_popular
+    );
 });
 
-updateScrollbar();
+// بعد از لود کامل صفحه 
+
+window.addEventListener('load', () => {
+    updateScrollbar(
+        brand_images,
+        scrollbar_brand,
+        thumb_brand
+    );
+
+    updateScrollbar(
+        popular_items,
+        scrollbar_popular,
+        thumb_popular
+    );
+});
+
+// اجرای اولیه 
+
+updateScrollbar(brand_images, scrollbar_brand, thumb_brand);
+updateScrollbar(popular_items, scrollbar_popular, thumb_popular);
 
 //اسلایدر محصولات
 
