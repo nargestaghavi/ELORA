@@ -158,6 +158,15 @@ window.addEventListener('load', () => {
 updateScrollbar(brand_images, scrollbar_brand, thumb_brand);
 updateScrollbar(popular_items, scrollbar_popular, thumb_popular);
 
+
+//طول text در محبوب ترین ها
+function matchTextHeight() { const text = document.querySelector('.popular-section .text'); const product = document.querySelector('.popular-section .product');
+if (text && product) {
+    text.style.height = `${product.offsetHeight}px`;
+}
+}
+window.addEventListener('load', matchTextHeight); window.addEventListener('resize', matchTextHeight);
+
 //اسلایدر محصولات
 
 const collections = document.querySelectorAll(".collection");
