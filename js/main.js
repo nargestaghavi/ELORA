@@ -186,6 +186,13 @@ collections.forEach(collection => {
         dots.push(dot);
     });
 
+    products.forEach((item, index) => {
+            if(window.innerWidth < 768)
+            item.style.marginLeft = item.offsetWidth/4 + "px";
+            if(window.innerWidth >= 768)
+            item.style.marginLeft = item.offsetWidth/1.5 + "px";
+    });
+
     function updateActiveItem() {
         const containerRect = container.getBoundingClientRect();
 
@@ -202,10 +209,6 @@ collections.forEach(collection => {
         let minDistance = Infinity;
 
         products.forEach((item, index) => {
-            if(window.innerWidth < 768)
-            item.style.marginLeft = item.offsetWidth/4 + "px";
-            if(window.innerWidth >= 768)
-            item.style.marginLeft = item.offsetWidth/1.5 + "px";
             const itemRect = item.getBoundingClientRect();
             const itemCenter = (itemRect.left + itemRect.right) / 2;
             const distance = Math.abs(itemCenter - anchorX);
