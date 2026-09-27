@@ -71,12 +71,12 @@ setInterval(changeBackground, 7000);
 
 // نوار اسکرول ساختگی
 
-const brand_images = document.querySelector('.brands .images'); 
-const scrollbar_brand = document.querySelector('.brands .scrollbar'); 
+const brand_images = document.querySelector('.brands .images');
+const scrollbar_brand = document.querySelector('.brands .scrollbar');
 const thumb_brand = document.querySelector('.brands .scrollbar-thumb');
 
-const popular_items = document.querySelector('.popular-section .products'); 
-const scrollbar_popular = document.querySelector('.popular-section .scrollbar'); 
+const popular_items = document.querySelector('.popular-section .products');
+const scrollbar_popular = document.querySelector('.popular-section .scrollbar');
 const thumb_popular = document.querySelector('.popular-section .scrollbar-thumb');
 
 function updateScrollbar(images, scrollbar, thumb) {
@@ -160,149 +160,227 @@ updateScrollbar(popular_items, scrollbar_popular, thumb_popular);
 
 
 //طول text در محبوب ترین ها
-function matchTextHeight() { const text = document.querySelector('.popular-section .text'); const product = document.querySelector('.popular-section .product');
-if (text && product) {
-    text.style.height = `${product.offsetHeight}px`;
-}
+function matchTextHeight() {
+    const text = document.querySelector('.popular-section .text'); const product = document.querySelector('.popular-section .product');
+    if (text && product) {
+        text.style.height = `${product.offsetHeight}px`;
+    }
 }
 window.addEventListener('load', matchTextHeight); window.addEventListener('resize', matchTextHeight);
 
 //اسلایدر محصولات
 
 const collections = document.querySelectorAll(".collection");
-const scrollHandlers = [];
 
 collections.forEach(collection => {
     const container = collection.querySelector('.images');
     const track = collection.querySelector('.images-track');
     const dotsWrapper = collection.querySelector('.dots-wrapper');
-    const originalProducts = Array.from(collection.querySelectorAll(".box-img"));
-    const totalOriginal = originalProducts.length;
+    const products = Array.from(collection.querySelectorAll(".box-img"));
     const dots = [];
 
-    // کلون کردن کل ست تصاویر و چسباندن پشت سر آخرین آیتم
-    const clones = originalProducts.map(item => {
-        const clone = item.cloneNode(true);
-        clone.classList.add('clone-slide');
-        clone.setAttribute('aria-hidden', 'true');
-        track.appendChild(clone);
-        return clone;
-    });
-
-    const allSlides = [...originalProducts, ...clones];
-
-    // دات‌ها فقط به تعداد آیتم‌های اصلی
-    originalProducts.forEach(() => {
+    products.forEach(() => {
         const dot = document.createElement('span');
         dot.classList.add('dot');
         dotsWrapper.appendChild(dot);
         dots.push(dot);
     });
 
-    const goToItem = (targetItem) => {
+    function updateActiveItem() {
         const containerRect = container.getBoundingClientRect();
-        const itemRect = targetItem.getBoundingClientRect();
-        const scrollPosition = container.scrollLeft + (itemRect.right - containerRect.right);
-        container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
-    };
 
-    // کلیک روی همه‌ی اسلایدها (اصلی + کلون) کار کنه
-    allSlides.forEach((item) => {
-        item.addEventListener("click", () => goToItem(item));
-    });
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        let scrollLeft = container.scrollLeft;
 
-    // کلیک روی دات‌ها فقط به آیتم اصلی معادل بره
-    dots.forEach((dot, index) => {
-        dot.addEventListener("click", () => goToItem(originalProducts[index]));
-    });
+        if (scrollLeft < 0) scrollLeft = Math.abs(scrollLeft);
+        else if (scrollLeft > maxScroll) scrollLeft = maxScroll - (scrollLeft - maxScroll);
 
-    let scrollEndTimer = null;
+        const scrollProgress = maxScroll > 0 ? scrollLeft / maxScroll : 0;
+        const anchorX = containerRect.right - (scrollProgress * containerRect.width);
 
-    function scrollProducts() {
-        const containerRect = container.getBoundingClientRect();
-        const rightEdge = containerRect.right;
-
-        // به‌جای علامت‌گذاری همه‌ی آیتم‌های نزدیک، فقط نزدیک‌ترین آیتم به لبه‌ی راست
-        // به عنوان فعال انتخاب می‌شه تا هیچ‌وقت دو اسلاید هم‌زمان فعال نشن
+        let closestIndex = -1;
         let minDistance = Infinity;
-        let activeSlideIndex = 0;
 
-        allSlides.forEach((item, index) => {
-            const rect = item.getBoundingClientRect();
-            const distance = Math.abs(rightEdge - rect.right);
+        products.forEach((item, index) => {
+            if(window.innerWidth < 768)
+            item.style.marginLeft = item.offsetWidth/4 + "px";
+            if(window.innerWidth >= 768)
+            item.style.marginLeft = item.offsetWidth/1.5 + "px";
+            const itemRect = item.getBoundingClientRect();
+            const itemCenter = (itemRect.left + itemRect.right) / 2;
+            const distance = Math.abs(itemCenter - anchorX);
+
             if (distance < minDistance) {
                 minDistance = distance;
-                activeSlideIndex = index;
+                closestIndex = index;
             }
+
+            const maxDistance = containerRect.width / 2;
+            const ratio = Math.max(0, 1 - distance / maxDistance);
         });
 
-        const activeIndex = activeSlideIndex % totalOriginal; // ایندکس دات معادل، چه اصلی چه کلون
+        products.forEach(item => item.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
 
-        allSlides.forEach((item, index) => {
-            const img = item.querySelector('img');
-            if (index === activeSlideIndex) {
-                img.style.opacity = "1";
-                img.style.transform = "scale(1)";
-                img.style.boxShadow = "3px 3px 10px rgba(0, 0, 0, 0.08),-3px -3px 10px rgba(186, 186, 186, 0.743),inset -3px -3px 10px rgba(0, 0, 0, 0.12),inset 3px 3px 10px rgba(231, 231, 231, 0.743)";
-                img.style.cursor = "pointer";
-            } else {
-                img.style.opacity = "0.65";
-                img.style.transform = "scale(0.8)";
-                img.style.boxShadow = "none";
-            }
-        });
-
-        dots.forEach((dot, index) => {
-            if (index === activeIndex) {
-                dot.style.backgroundColor = "rgb(50, 50, 50)";
-                dot.style.transform = "scale(1.2)";
-            } else {
-                dot.style.backgroundColor = "rgb(137, 137, 137)";
-                dot.style.transform = "scale(1)";
-            }
-        });
-
-        clearTimeout(scrollEndTimer);
-        scrollEndTimer = setTimeout(checkLoop, 150);
-    }
-
-    // وقتی اسکرول متوقف شد، اگه رو یکی از کلون‌ها بودیم، بی‌صدا برگرد به معادل اصلیش
-    function checkLoop() {
-        const containerRect = container.getBoundingClientRect();
-        const rightEdge = containerRect.right;
-
-        for (let i = 0; i < clones.length; i++) {
-            const rect = clones[i].getBoundingClientRect();
-            const distance = Math.abs(rightEdge - rect.right); if (distance < 20) {
-                const cycleWidth = clones[i].offsetLeft - originalProducts[i].offsetLeft;
-
-                allSlides.forEach(item => {
-                    item.querySelector('img').style.transition = 'none';
-                });
-
-                container.style.scrollBehavior = 'auto';
-                container.scrollLeft -= cycleWidth;
-                container.style.scrollBehavior = '';
-
-                scrollProducts();
-                requestAnimationFrame(() => {
-                    allSlides.forEach(item => {
-                        item.querySelector('img').style.transition = '';
-                    });
-                });
-
-                break;
-            }
+        if (closestIndex !== -1) {
+            products[closestIndex].classList.add('active');
+            dots[closestIndex].classList.add('active');
         }
     }
 
-    container.addEventListener("scroll", scrollProducts);
-    scrollProducts();
+    let ticking = false;
+    container.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateActiveItem();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
 
-    scrollHandlers.push(scrollProducts);
+    updateActiveItem();
 });
 
-window.addEventListener('load', () => {
-    scrollHandlers.forEach(fn => fn());
-});
+
+
+
+
+
+// const collections = document.querySelectorAll(".collection");
+// const scrollHandlers = [];
+
+// collections.forEach(collection => {
+//     const container = collection.querySelector('.images');
+//     const track = collection.querySelector('.images-track');
+//     const dotsWrapper = collection.querySelector('.dots-wrapper');
+//     const originalProducts = Array.from(collection.querySelectorAll(".box-img"));
+//     const totalOriginal = originalProducts.length;
+//     const dots = [];
+
+//     // کلون کردن کل ست تصاویر و چسباندن پشت سر آخرین آیتم
+//     const clones = originalProducts.map(item => {
+//         const clone = item.cloneNode(true);
+//         clone.classList.add('clone-slide');
+//         clone.setAttribute('aria-hidden', 'true');
+//         track.appendChild(clone);
+//         return clone;
+//     });
+
+//     const allSlides = [...originalProducts, ...clones];
+
+//     // دات‌ها فقط به تعداد آیتم‌های اصلی
+//     originalProducts.forEach(() => {
+//         const dot = document.createElement('span');
+//         dot.classList.add('dot');
+//         dotsWrapper.appendChild(dot);
+//         dots.push(dot);
+//     });
+
+//     const goToItem = (targetItem) => {
+//         const containerRect = container.getBoundingClientRect();
+//         const itemRect = targetItem.getBoundingClientRect();
+//         const scrollPosition = container.scrollLeft + (itemRect.right - containerRect.right);
+//         container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+//     };
+
+//     // کلیک روی همه‌ی اسلایدها (اصلی + کلون) کار کنه
+//     allSlides.forEach((item) => {
+//         item.addEventListener("click", () => goToItem(item));
+//     });
+
+//     // کلیک روی دات‌ها فقط به آیتم اصلی معادل بره
+//     dots.forEach((dot, index) => {
+//         dot.addEventListener("click", () => goToItem(originalProducts[index]));
+//     });
+
+//     let scrollEndTimer = null;
+
+//     function scrollProducts() {
+//         const containerRect = container.getBoundingClientRect();
+//         const rightEdge = containerRect.right;
+
+//         // به‌جای علامت‌گذاری همه‌ی آیتم‌های نزدیک، فقط نزدیک‌ترین آیتم به لبه‌ی راست
+//         // به عنوان فعال انتخاب می‌شه تا هیچ‌وقت دو اسلاید هم‌زمان فعال نشن
+//         let minDistance = Infinity;
+//         let activeSlideIndex = 0;
+
+//         allSlides.forEach((item, index) => {
+//             const rect = item.getBoundingClientRect();
+//             const distance = Math.abs(rightEdge - rect.right);
+//             if (distance < minDistance) {
+//                 minDistance = distance;
+//                 activeSlideIndex = index;
+//             }
+//         });
+
+//         const activeIndex = activeSlideIndex % totalOriginal; // ایندکس دات معادل، چه اصلی چه کلون
+
+//         allSlides.forEach((item, index) => {
+//             const img = item.querySelector('img');
+//             if (index === activeSlideIndex) {
+//                 img.style.opacity = "1";
+//                 img.style.transform = "scale(1)";
+//                 img.style.boxShadow = "3px 3px 10px rgba(0, 0, 0, 0.08),-3px -3px 10px rgba(186, 186, 186, 0.743),inset -3px -3px 10px rgba(0, 0, 0, 0.12),inset 3px 3px 10px rgba(231, 231, 231, 0.743)";
+//                 img.style.cursor = "pointer";
+//             } else {
+//                 img.style.opacity = "0.65";
+//                 img.style.transform = "scale(0.8)";
+//                 img.style.boxShadow = "none";
+//             }
+//         });
+
+//         dots.forEach((dot, index) => {
+//             if (index === activeIndex) {
+//                 dot.style.backgroundColor = "rgb(50, 50, 50)";
+//                 dot.style.transform = "scale(1.2)";
+//             } else {
+//                 dot.style.backgroundColor = "rgb(137, 137, 137)";
+//                 dot.style.transform = "scale(1)";
+//             }
+//         });
+
+//         clearTimeout(scrollEndTimer);
+//         scrollEndTimer = setTimeout(checkLoop, 150);
+//     }
+
+//     // وقتی اسکرول متوقف شد، اگه رو یکی از کلون‌ها بودیم، بی‌صدا برگرد به معادل اصلیش
+//     function checkLoop() {
+//         const containerRect = container.getBoundingClientRect();
+//         const rightEdge = containerRect.right;
+
+//         for (let i = 0; i < clones.length; i++) {
+//             const rect = clones[i].getBoundingClientRect();
+//             const distance = Math.abs(rightEdge - rect.right); if (distance < 20) {
+//                 const cycleWidth = clones[i].offsetLeft - originalProducts[i].offsetLeft;
+
+//                 allSlides.forEach(item => {
+//                     item.querySelector('img').style.transition = 'none';
+//                 });
+
+//                 container.style.scrollBehavior = 'auto';
+//                 container.scrollLeft -= cycleWidth;
+//                 container.style.scrollBehavior = '';
+
+//                 scrollProducts();
+//                 requestAnimationFrame(() => {
+//                     allSlides.forEach(item => {
+//                         item.querySelector('img').style.transition = '';
+//                     });
+//                 });
+
+//                 break;
+//             }
+//         }
+//     }
+
+//     container.addEventListener("scroll", scrollProducts);
+//     scrollProducts();
+
+//     scrollHandlers.push(scrollProducts);
+// });
+
+// window.addEventListener('load', () => {
+//     scrollHandlers.forEach(fn => fn());
+// });
 
