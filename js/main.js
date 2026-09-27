@@ -188,7 +188,7 @@ collections.forEach(collection => {
 
     products.forEach((item, index) => {
             if(window.innerWidth < 768)
-            item.style.marginLeft = item.offsetWidth/4 + "px";
+            item.style.marginLeft = item.offsetWidth/4.5 + "px";
             if(window.innerWidth >= 768)
             item.style.marginLeft = item.offsetWidth/1.5 + "px";
     });
